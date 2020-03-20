@@ -1,0 +1,16 @@
+
+
+break code into 3 sections 
+	map draw
+	map color
+	map legend 
+	map info 
+
+see if you can add a button to color the map differently 
+based on gdp versus pop 
+
+if that works then start testing with flask 
+feeding the country selected on mouse click as the country to the info box
+
+also the country name is not correct - pull in different field from geo json as  
+look at Argentina

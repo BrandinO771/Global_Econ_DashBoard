@@ -1,0 +1,7 @@
+run_python_app.py_fromBash
+
+from this folder
+in git bash
+
+run 
+python app.py 
