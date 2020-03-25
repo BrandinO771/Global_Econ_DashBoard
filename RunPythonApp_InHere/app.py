@@ -155,7 +155,7 @@ def top_ten_five(user_selection):
     all_results=[]
     sample_datas = {}
 
-    for result in results:
+    for result in results: ## BUILD OUR TOP TEN DICTIONARY HERE 
                 # print(result)
                 sample_datas = { "name" : result[0] , "value" :format(result[1] , ',')  } 
                 all_results.append(sample_datas)

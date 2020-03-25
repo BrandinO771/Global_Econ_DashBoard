@@ -3,7 +3,6 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 ////-----VARIABLES  ---------------////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-
 var geojson;
 var lat = 20;
 var long = 10;
@@ -14,7 +13,6 @@ var map_color_data ="";
 var db_data =[]; 
 var initialize = 0;
 var u = 0;
-// var box_count = 0;
 
 
  L.tileLayer(`https://api.mapbox.com/styles/v1/mapbox/light-v9/tiles/256/{z}/{x}/{y}?access_token=${API_KEY}`, {
@@ -57,8 +55,6 @@ function draw_map(db_data)  /// THIS FUNCTION WRAPS MOST OF THIS CODE
 /////////////////////////////////////////////////////////////////////////////////////////////////
 ////------- LEGEND ------------------////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////
-  //  console.log( "<><><><>--------display_this  is :<><><><>--------- ",display_this);
-
   ///--LEGEND POSITION:
   var legend = L.control({
                           position: 'bottomleft'
@@ -97,34 +93,28 @@ function draw_map(db_data)  /// THIS FUNCTION WRAPS MOST OF THIS CODE
           // /FOR LOOP CREATE LEGEND -- Loops through GDP data and grabs colors for each range and puts them in the legend’s key
           for (var i = 0; i < colors.length; i++) 
                   {
-                    if ( i >= 1)
-                    {
-                      div.innerHTML +=
-                          '<i  style="background:' + getColor(colors[i] + 1) + '"></i>' +
-                          '<font id="leg_nums">'+ colors[i] +    (colors[i - 1] ? '&ndash;' + colors[i - 1] +'</font>' + '<br>' : '-');
-                    }
-                    if ( i <  1 )
-                    {
-                      div.innerHTML +=
-                          '<i  style="background:' + getColor(colors[i] + 1) + '"></i>' +
-                          '<font id="leg_nums">'+ colors[i] +    (colors[i - 1] ? '&ndash;' + colors[i ] +'</font>' + '<br>' : '+' +'<br>');
-                    }        
-
-
+                      if ( i >= 1)
+                        {
+                          div.innerHTML +=
+                              '<i  style="background:' + getColor(colors[i] + 1) + '"></i>' +
+                              '<font id="leg_nums">'+ colors[i] +    (colors[i - 1] ? '&ndash;' + colors[i - 1] +'</font>' + '<br>' : '-');
+                        }
+                      if ( i <  1 )
+                        {
+                          div.innerHTML +=
+                              '<i  style="background:' + getColor(colors[i] + 1) + '"></i>' +
+                              '<font id="leg_nums">'+ colors[i] +    (colors[i - 1] ? '&ndash;' + colors[i ] +'</font>' + '<br>' : '+' +'<br>');
+                        }        
                   }
-
           return div;
       };
       legend.addTo(mymap);
 
-
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 ////--- INFORMATION BOX --------///////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-
   ///--ON HOVER-----DISPLAY COUNTRY INFO IN INFORMATION BOX
   var displayInfo = L.control();
-
 
   displayInfo.onAdd = function (map) /// create a div with a class "info"
       {
@@ -135,14 +125,13 @@ function draw_map(db_data)  /// THIS FUNCTION WRAPS MOST OF THIS CODE
       };
 
 
-
   displayInfo.clear= function clear_displayInfo_box()///CLEAR CONTENT
       {
         this._div.innerHTML =("");    
       };
 
   ///--POPULATE THE INFO BOX WITH HTML:
-  displayInfo.update = function (props) //, meta)//,db_data) /// Passes properties of hovered upon country and displays it in the control
+  displayInfo.update = function (props) /// Passes properties of hovered upon country and displays 
           { 
             this._div.style =('visibility:visible ;');
             this._div.innerHTML =  (props ?  `<img id="imgr" src='static/js/Flags/${props.iso_a2}.png'`  + '>'+ '<br>' +   '<br>' +   
@@ -156,7 +145,6 @@ function draw_map(db_data)  /// THIS FUNCTION WRAPS MOST OF THIS CODE
 /////////////////////////////////////////////////////////////////////////
 ///   MY INFO BOX  INFO FROM FLASK 
 /////////////////////////////////////////////////////////////////////////
-
       var info_box =  L.control();
       info_box.onAdd = function (map) /// create a div with a class "info"
           {
@@ -178,7 +166,6 @@ function draw_map(db_data)  /// THIS FUNCTION WRAPS MOST OF THIS CODE
               {
                 var category ="";
                 var step = 0;
-                ////  BELOW WE ASSIGN A ID TO SO CSS WILL MAKE FONT YELLOW FOR COUNTRY NAME AND LIST ITEM THAT MATCHES CURRENT CATEGORY  
                 if ( key == "A. Country" )                                  {  step = 1; }
                 if ( display_this == 1 && key == "D. Population Millions")  {  step = 1; }
                 if ( display_this == 2 && key == "B. World Rank")           {  step = 1; }
@@ -192,10 +179,8 @@ function draw_map(db_data)  /// THIS FUNCTION WRAPS MOST OF THIS CODE
                 if ( display_this == 10 && key == "F. Unemployment")        {  step = 1; }
 
                   this._divi.style =('visibility:visible ;');
-
-                // SLICE BELOW TO TRIM OF THE LETTER WE USED TO CUSTOM SORT OUR LIST, ALSO CHECK FOR UNDEFINED -OR IT ERROR OUT AS SOME UNDEFINES ARE BEING FED IN?
+                ////  BELOW WE ASSIGN A ID TO SO CSS WILL MAKE FONT YELLOW FOR COUNTRY NAME AND LIST ITEM THAT MATCHES CURRENT CATEGORY  
                 if ( step == 1 ) {this._divi.innerHTML += ('<tr id="row2"><td>' + key.slice(3,100) + '</td><td>'+  value + '</td></tr>');}
-                // if ( step == 0 && key != category){ this._divi.innerHTML += ('<tr id="row1"><td>' + key + '</td><td>'+  value + '</td></tr>'); }
                 if ( step == 0 && key != undefined )   {  this._divi.innerHTML +=   ('<tr id="row1"><td>' + key.slice(3)+ '</td><td>'+  value + '</td></tr>');  }
                 };  
              
@@ -208,9 +193,8 @@ function draw_map(db_data)  /// THIS FUNCTION WRAPS MOST OF THIS CODE
 ///   INFO BOX 2
 ////////////////////////////////////////////////////////////////////////   
 
-///////// THIS FREAKING WORKS WE CAN FIND HOW MANY EXIST /////////////
+///////// THIS IS HOW WE FIND THE OLD BOX TO DESTROY ON NEW MAP BUILD /////////////
 var all_boxes_3_ =  d3.selectAll(".info3")
-// var all_boxes_4_ =  d3.selectAll(".info4")
 
 /// HERE WE DELETE THE OLD CONTAINER FULL OF MANY ROWS SO WE MAY CREATE A NEW BLANK ONE TO BE FILLED LATER 
 if ( all_boxes_3_ != undefined &&  (all_boxes_3_._groups[0]).length > 1 )
@@ -218,11 +202,9 @@ if ( all_boxes_3_ != undefined &&  (all_boxes_3_._groups[0]).length > 1 )
       d3.select(".info3").remove()
       }
 
-
 var info_box_two     = L.control({
                             position: 'topleft'
                             });
-
 
 info_box_two.onAdd = function (map) /// create a div with a class "info"
     {
@@ -256,31 +238,25 @@ info_box_two.update = function(dics) //UNPACK JSON
           if ( display_this == 10 ){ title =  "Unemploy"      ;}                      
 
           this._divi_.style =('visibility:visible ;');/// NOW WE UPDATE THIS DIV AND MAKE IT VISIBLE 
-          // this._divi_.innerHTML =('<tr><td>'  +'<font id="f1">' +'TOP 10 :' + ' ' + ' '  + `${query}` + '<tr><td>');  
           this._divi_.innerHTML =('<tr><td>'  +'<font id="f1">' +'Top 10: ' + ' ' + ' '  + `${title}` + '<tr><td>');   
-
           this._divi_.innerHTML +=('<tr><td>'  +'<font id="f2">' + 'Country'  + '</td><td>'+   '<font id="f2">'+ 'Value' +'<tr><td>');//+
-          // '<tr><td>'  +'<font id="f1">' + '----------------------'  + '</td><td>'+   '<font id="f1">'+ '-------' +'<tr><td>'          );   
          if (dics != undefined && this._divi_ != undefined )
-            { 
-             while(iter < 10 )//HERE WE BUILD OUR TABLE FOR POPUP ------ THIS TOOK FOREVER TO FIGURE OUT - MAP WOULD NOT WORK!!!!!!!!!!!!!!!!!!!!!!!!
-              {
-              this._divi_.innerHTML += ('<tr><td>' + `${dics[iter].name}`  + '</td><td>'+   `${dics[iter].value}` + '</td></tr>'); 
-              iter+=1;
+              { 
+                while(iter < 10 )//HERE WE BUILD OUR TABLE FOR POPUP ------ THIS TOOK FOREVER TO FIGURE OUT - MAP WOULD NOT WORK!!!!!!!!!!!!!!!!!!!!!!!!
+                  {
+                  this._divi_.innerHTML += ('<tr><td>' + `${dics[iter].name}`  + '</td><td>'+   `${dics[iter].value}` + '</td></tr>'); 
+                  iter+=1;
+                  }
               }
-           }
         }
 
       info_box_two.addTo(mymap); 
 
-
         function top_tens(query)
         {
-          //  console.log("top tens called with this query", query);
            urls = `/top_ten/${query}`/// API ADDRESS USE COUNTRY NAME AS QUERY 
           d3.json(urls).then(function(response) {//JSON RESPONSE
                       var infos = response ;
-                      // console.log("this is the data for top ten pre sort ", response);
                       //////////////////////////////////////////////////////
                       //// DO WE NEED TO SORT THIS DIFFERENTLY ? UNLOCK BELOW IF SO
                      // infos.sort(function(a,b){
@@ -288,11 +264,9 @@ info_box_two.update = function(dics) //UNPACK JSON
                       //  return a.value + b.value; // if this is a +  b then is desc
                        // });
                      ///////////////////////////////////////////////////////   
-                    // console.log("this is the data for top ten after sort infos ", infos);
                   if(infos != undefined){ info_box_two.update(infos); }//PASS JASON TO INFO_BOX.UPDATE FUNC    
                  }); 
         }
-
 /////////////////////////////////////////////////////////////////////////
 ///  END MY INFO BOX 2
 ////////////////////////////////////////////////////////////////////////  
@@ -312,9 +286,7 @@ function highlight(e) /// HOVER ON MAP ITEMS - UPDATES INFO BOXES AND OUTLINES C
                           });
 
           if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {  layer.bringToFront(); }
-    
           displayInfo.update(layer.feature.properties);  // Updates custom legend on hover
-          // info_box(layer.feature.properties);
       }
 
 
@@ -338,77 +310,71 @@ function getColor(d) /// COLOR GRADIENT THRESHOLDS FOR MAP
                       d > 200000 ? '#fcc5c0' :
                       d > 150000 ? '#fde0dd' :
                       '#fff7f3'
-              }
+               }
             
-                // POPULATION COLOR   [1000,400,300,250,200,150,100,75,50,25,10,0.1];
-              if ( display_this== 1 ) // ECO TEST
-              {
-              return  d > 1000  ?   '#ff0040' :
-                      // d > 400   ? '#e45b00'  :
-                      d > 300   ? '#2a003d' :
-                      d > 250   ? '#420060' :
-                      d > 200   ? '#680188' :
-                      d > 150   ? '#7a0177' :
-                      d > 100   ? '#ae017e' :
-                      d > 75    ? '#c4058d' :
-                      d > 50    ? '#dd3497' :
-                      d > 25    ? '#f768a1' :
-                      d > 10    ? '#ff92be':
-                      d > .1   ? '#ffb6d3' :
-                      '#fff7f3'
-              }
-
-              // Government_Integrity, Judical_Effectiveness,  Fiscal_Health 0-100
-          if ( display_this == 3 || display_this == 4|| display_this == 5) // ECO TEST
-                {               
-                return  d > 90 ? '#260038' :
-                        d > 80 ? '#34004d' :
-                        d > 70 ? '#49006a' :
-                        d > 70 ? '#680188' :
-                        d > 60 ? '#7a0177' :
-                        d > 50 ? '#ae017e' :
-                        d > 40 ? '#c4058d':
-                        d > 20 ? '#dd3497':
-                        d > 10 ? '#f768a1':
-                        d > 0  ? '#ffaccd':
+          if ( display_this== 1 )
+                {
+                return  d > 1000  ?   '#ff0040' :
+                        d > 300   ? '#2a003d' :
+                        d > 250   ? '#420060' :
+                        d > 200   ? '#680188' :
+                        d > 150   ? '#7a0177' :
+                        d > 100   ? '#ae017e' :
+                        d > 75    ? '#c4058d' :
+                        d > 50    ? '#dd3497' :
+                        d > 25    ? '#f768a1' :
+                        d > 10    ? '#ff92be':
+                        d > .1   ? '#ffb6d3' :
                         '#fff7f3'
                 }
-        
-             // World_Rank  0-180 
-          if ( display_this == 2 ) // ECO TEST
+
+          if ( display_this == 3 || display_this == 4|| display_this == 5)
                 {
-                return  d > 160 ? '#260038' :
-                        d > 140 ? '#49006a' :
-                        d > 120 ? '#680188' :
-                        d > 100 ? '#7a0177' :
-                        d > 80 ? '#ae017e ' :
-                        d > 60 ? '#c4058d' :
-                        d > 40 ? '#dd3497' :
-                        d > 20 ? '#ff80b3' :
-                        d > 10 ? '#f768a1' :
-                        d > 1? '#ff92be' :
-                            '#fff7f3'
+                  return  d > 90 ? '#260038' :
+                          d > 80 ? '#34004d' :
+                          d > 70 ? '#49006a' :
+                          d > 70 ? '#680188' :
+                          d > 60 ? '#7a0177' :
+                          d > 50 ? '#ae017e' :
+                          d > 40 ? '#c4058d':
+                          d > 20 ? '#dd3497':
+                          d > 10 ? '#f768a1':
+                          d > 0  ? '#ffaccd':
+                          '#fff7f3'
+                  }
+        
+          if ( display_this == 2 ) 
+                  {
+                  return  d > 160 ? '#260038' :
+                          d > 140 ? '#49006a' :
+                          d > 120 ? '#680188' :
+                          d > 100 ? '#7a0177' :
+                          d > 80 ? '#ae017e ' :
+                          d > 60 ? '#c4058d' :
+                          d > 40 ? '#dd3497' :
+                          d > 20 ? '#ff80b3' :
+                          d > 10 ? '#f768a1' :
+                          d > 1? '#ff92be' :
+                              '#fff7f3'
+                  }
+
+            if ( display_this== 7 ) 
+                {
+                return  d > 200  ?  '#df0505'  :
+                        d > 180   ? '#e45b00'  :
+                        d > 160   ? '#2a003d' :
+                        d > 140   ? '#34004d' :
+                        d > 120   ? '#680188' :
+                        d > 100   ? '#7a0177' :
+                        d > 80    ? '#ae017e' :
+                        d > 60    ? '#c4058d' :
+                        d > 40    ? '#dd3497' :
+                        d > 20    ? '#f768a1' :
+                        d > 10    ? '#ff92be':
+                        d > 1   ? '#ffb6d3' :
+                        '#fff7f3'
                 }
 
-             // Public_Debtof_GDP   0-236
-            if ( display_this== 7 ) // ECO TEST
-            {
-            return  d > 200  ?  '#df0505'  :
-                    d > 180   ? '#e45b00'  :
-                    d > 160   ? '#2a003d' :
-                    d > 140   ? '#34004d' :
-                    d > 120   ? '#680188' :
-                    d > 100   ? '#7a0177' :
-                    d > 80    ? '#ae017e' :
-                    d > 60    ? '#c4058d' :
-                    d > 40    ? '#dd3497' :
-                    d > 20    ? '#f768a1' :
-                    d > 10    ? '#ff92be':
-                    d > 1   ? '#ffb6d3' :
-                    '#fff7f3'
-            }
-
-              // Inflation , Income Tax Rate, Copr Tax Rate -.9 to 50,60 1087  [55,50,45,40,35,30,25,10,5,1]
           if (display_this== 6 || display_this== 8 || display_this == 9 ) // ECO TEST
                 {
                 return  d > 55?  '#260038' :
@@ -424,23 +390,20 @@ function getColor(d) /// COLOR GRADIENT THRESHOLDS FOR MAP
                           '#fff7f3'
                   }
 
-          if ( display_this == 10  ) // ECO TEST  [25,20,15,10,5,2,.5]
+          if ( display_this == 10  )
                   {
                   return      d > 25 ?  '#260038' :
                               d > 20 ? '#34004d' :
                               d > 15 ? '#49006a' :
                               d > 10 ? '#680188' :
                               d > 5 ? '#7a0177' :
-                              // d > 4 ? 'rgb(255,0,0)' :
                               d > 2 ? '#c4058d':
                               d > .1 ? '#f768a1':
                           '#fff7f3'
-                    }
+                  }
 
         mymap.update();
-
-        }
-
+    }
 
 
 function style(feature)  /// COLOR OF COUNTRYS BASED ON THIS VARIABLE FROM GEOJSON
@@ -457,7 +420,6 @@ function style(feature)  /// COLOR OF COUNTRYS BASED ON THIS VARIABLE FROM GEOJS
             if ( display_this == 8 ) { map_color_data = feature.properties.Income_Tax_Rate };
             if ( display_this == 9 ) { map_color_data = feature.properties.Corporate_Tax_Rate };
             if ( display_this == 10) { map_color_data = feature.properties.Unemployment };
-
     
           return {
                
@@ -467,7 +429,6 @@ function style(feature)  /// COLOR OF COUNTRYS BASED ON THIS VARIABLE FROM GEOJS
                   fillOpacity: .72,
                   className: feature.properties.geounit,
                   };
-         
     }  
 
 
@@ -568,7 +529,6 @@ function onEachFeature(feature, layer)
 /////////////END OF DRAWMAP FUNCTION WRAP////////////////////////////////////////////////////////// 
 }                                                                                     ////////////
 /////////////END OF DRAWMAP FUNCTION WRAP////////////////////////////////////////////////////////
-
 
     //////////////////////////////////////////////////////////////////////////
     // OPTIONAL WAY OF EXTRACTING COUNTRY NAME
