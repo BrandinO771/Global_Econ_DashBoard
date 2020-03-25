@@ -1,0 +1,45 @@
+AS OF 3/25/20
+
+BY BRANDON STEINKE:
+
+Took the previous group project and made following revisions....
+
+INFO BOXES:
+	Pop-up boxes: 
+		Upper Right Box
+			* now reads in the flag icon properly as image not emoji ascii 
+			* cleaned up the data formatting 
+
+		Lower Right Box:
+			* cleaned up formatting - now in a table format
+			* revised code to tag econ category and country to be highlighted yellow in the list  
+				so it is clear which country is being moused over and category is currently selected and displaying map
+			* now sorted in a custom way with econ categories grouped by type
+
+		Lower Left Legend:
+			* reworked the code so color and values display and calculate correctly in the legend
+			* moved position on screen up and right to be more visible
+			* category type now displays at top of box
+
+		Upper Left Box : Top 10 
+			* new box, challenging to add and remove this object on map redraw
+			* used a visible invisible style formatting to only show object container once it was 
+				filled with data, without a small gray square would be visible 
+			* used d3 to find all these obj boxes with more than 2 rows and delete those old objs once the 
+				map was redrawn and new object created, preventing multiple box creation 
+			* used new technique to dynamically build this list as a dictionary in python to return to json call so could be sorted
+SCREEN :
+	Scroll Lock:
+		* Found great solution on Stack to lock the map so user could not scroll into blank areas of map and 
+			get lost, as there is currently no recenter map button function 
+	Media Responsive:
+		* implemented CSS media query to shrink scale on slightly smaller pc screen, not sure how this 
+			will display on mobile
+	UI:
+		* Created border at top and bottom of screen to make clear , the title of the page , and the 
+			economics selection button
+		* Greatly increased size and centered the economics selection button
+
+POSSIBLE FUTURE FEATURES:
+	* Top Ten, user clicks button to scroll forward and back by next ten
+	* reverse sort and show bottom ten 
