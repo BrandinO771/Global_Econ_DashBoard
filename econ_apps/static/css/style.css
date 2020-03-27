@@ -4,24 +4,34 @@
 
 @media only screen and (min-width : 701px) {
 body {
-  transform-origin: top left ;
+  zoom:80%;
   transform: scale(1,1); 
-  width: 98%;
-  height: 98%;
+  width: 90%;
+  height:90%;
   }
 }
 
-
+/* @media only screen and (min-width: 450px) {
+  body {
+      zoom:30%;
+      transform-origin: top left;
+      transform: scale(1 ,1);
+      width: 30%;
+      height: 30%; 
+      }
+  } */
 @media only screen and (max-width: 1900px) {
 body {
-    transform-origin: top left;
-    transform: scale(1 ,.85);
+    zoom:90%;
+    /* transform-origin: top left; */
+    transform: scale(1 ,1);
     width: 95%;
-    height: 80%;
+    height: 95%;
     }
 }
 
 body {
+/* zoom:90%; */
 padding: 0;
 background-color: rgb(87, 100, 100);
 }

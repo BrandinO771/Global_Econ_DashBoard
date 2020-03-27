@@ -1,5 +1,5 @@
-
-
+///////////////////////////////////////////////////////////////////////////////////////////////////
+/// COPYRIGHT BRANDON STEINKE , PATRICK HENNESSY 2020
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 ////-----VARIABLES  ---------------////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -11,9 +11,7 @@ var database_info = "";
 var display_this = 0;//temp var to determine map color
 var map_color_data ="";
 var db_data =[]; 
-var initialize = 0;
-var u = 0;
-
+// var u = 0;
 
  L.tileLayer(`https://api.mapbox.com/styles/v1/mapbox/light-v9/tiles/256/{z}/{x}/{y}?access_token=${API_KEY}`, {
     attribution: "Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"https://www.mapbox.com/\">Mapbox</a>",
@@ -38,7 +36,6 @@ mymap.panInsideBounds(bounds, { animate: false });
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 ////---- BUILD MAP WITH GEOJASON ---------------///////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-
 function draw_map(db_data)  /// THIS FUNCTION WRAPS MOST OF THIS CODE 
         {
 
@@ -65,14 +62,13 @@ function draw_map(db_data)  /// THIS FUNCTION WRAPS MOST OF THIS CODE
   legend.onAdd = function (map) 
       {
         var colorz =[];
-        if ( display_this == 0 ) {colorz = [ 15000000, 10000000, 5000000,  2000000,   1000000,  500000,  200000,  150000];}
-        if ( display_this == 1 ) {  colorz = [1000,300,250,200,150,100,75,50,25,10,0.1];}
-         //if ( display_this == 1 ) {colorz = [   500000000,  250000000,  100000000,  75000000,  25000000, 5000000,  1000000, 100000 ];}
-        if (display_this == 2 ) {  colorz = [160,140,120,100,80,60,40,20,10,1];}
-        if ( display_this == 3 || display_this == 4|| display_this == 5)  {  colorz = [90,80,70,60,50,40,20,10,0];}
-        if ( display_this== 7 ) {  colorz = [200,180,160,140,120,100,80,60,40,20,10,1];}
-        if ( display_this== 6  || display_this== 8 || display_this == 9 )  {  colorz =  [55,50,45,40,35,30,25,10,5,1];}
-        if (  display_this == 10 ) {colorz =  [25,20,15,10,5,2,0.1];}
+        if (  display_this  == 0 )      { colorz  = [ 15000000, 10000000, 5000000,  2000000,   1000000,  500000,  200000,  150000] ;}
+        if (  display_this  == 1 )      { colorz  = [1000,300,250,200,150,100,75,50,25,10,0.1] ;}
+        if (  display_this  == 2 )      { colorz  = [160,140,120,100,80,60,40,20,10,1] ;}
+        if (  display_this  == 3 || display_this == 4|| display_this == 5)  {  colorz = [90,80,70,60,50,40,20,10,0] ;}
+        if (  display_this  == 7 )      { colorz  = [200,180,160,140,120,100,80,60,40,20,10,1] ;}
+        if (  display_this  == 6  || display_this== 8 || display_this == 9 )  {  colorz =  [55,50,45,40,35,30,25,10,5,1] ;}
+        if (  display_this  == 10 )     { colorz  = [25,20,15,10,5,2,0.1] ;}
  
           var div = L.DomUtil.create('div', 'info legend'),
               colors = colorz,
@@ -132,15 +128,15 @@ function draw_map(db_data)  /// THIS FUNCTION WRAPS MOST OF THIS CODE
 
   ///--POPULATE THE INFO BOX WITH HTML:
   displayInfo.update = function (props) /// Passes properties of hovered upon country and displays 
-          { 
-            this._div.style =('visibility:visible ;');
-            this._div.innerHTML =  (props ?  `<img id="imgr" src='static/js/Flags/${props.iso_a2}.png'`  + '>'+ '<br>' +   '<br>' +   
-              '<font id="f1"> Country: ' + props.name + '</font>' + '<br>'+'<b>' + 'GDP in Trillions of USD: ' + '</b>' + props.gdp_md_est / 1000000 + '<br />' +
-              '<b>' + ' GDP in Billions of USD: ' + '</b>' + props.gdp_md_est / 1000 + '<br />' +
-              '<b>' + 'Economic Status: ' + '</b>' + props.economy + '<br />' +
-              '<b>' + 'Population: ' + '</b>' + props.pop_est / 1000000 + ' million people' :'' );
-          }
-          displayInfo.addTo(mymap);
+      { 
+        this._div.style =('visibility:visible ;');
+        this._div.innerHTML =  (props ?  `<img id="imgr" src='static/js/Flags/${props.iso_a2}.png'`  + '>'+ '<br>' +   '<br>' +   
+        '<font id="f1"> Country: ' + props.name + '</font>' + '<br>'+'<b>' + 'GDP in Trillions of USD: ' + '</b>' + props.gdp_md_est / 1000000 + '<br />' +
+        '<b>' + ' GDP in Billions of USD: ' + '</b>' + props.gdp_md_est / 1000 + '<br />' +
+        '<b>' + 'Economic Status: ' + '</b>' + props.economy + '<br />' +
+        '<b>' + 'Population: ' + '</b>' + props.pop_est / 1000000 + ' million people' :'' );
+      }
+        displayInfo.addTo(mymap);
 
 /////////////////////////////////////////////////////////////////////////
 ///   MY INFO BOX  INFO FROM FLASK 
@@ -189,10 +185,10 @@ function draw_map(db_data)  /// THIS FUNCTION WRAPS MOST OF THIS CODE
 ///  END MY INFO BOX 
 ////////////////////////////////////////////////////////////////////////  
 
+
 /////////////////////////////////////////////////////////////////////////
 ///   INFO BOX 2
 ////////////////////////////////////////////////////////////////////////   
-
 ///////// THIS IS HOW WE FIND THE OLD BOX TO DESTROY ON NEW MAP BUILD /////////////
 var all_boxes_3_ =  d3.selectAll(".info3")
 
@@ -225,8 +221,8 @@ info_box_two.update = function(dics) //UNPACK JSON
         {
           iter = 0;
           var title = "";
-          if ( display_this == 0 ) { title =  "GDP Millions";}
-          if ( display_this == 1 ) { title =  "Population" ;}        
+          if ( display_this == 0 ) { title =  "GDP Millions"    ;}
+          if ( display_this == 1 ) { title =  "Population"      ;}        
           if ( display_this == 2 ) { title =  "World Rank"      ;}                          
           if ( display_this == 3 ) { title =  "Gov Integrity"   ;}              
           if ( display_this == 4 ) { title =  "Judicial Effect" ;}          
@@ -235,14 +231,14 @@ info_box_two.update = function(dics) //UNPACK JSON
           if ( display_this == 7 ) { title =  "Public Debt GDP" ;}                   
           if ( display_this == 8 ) { title =  "Avg Income Tax"  ;}               
           if ( display_this == 9 ) { title =  "Avg Corp Tax"    ;}             
-          if ( display_this == 10 ){ title =  "Unemploy"      ;}                      
+          if ( display_this == 10 ){ title =  "Unemploy"        ;}                      
 
           this._divi_.style =('visibility:visible ;');/// NOW WE UPDATE THIS DIV AND MAKE IT VISIBLE 
           this._divi_.innerHTML =('<tr><td>'  +'<font id="f1">' +'Top 10: ' + ' ' + ' '  + `${title}` + '<tr><td>');   
           this._divi_.innerHTML +=('<tr><td>'  +'<font id="f2">' + 'Country'  + '</td><td>'+   '<font id="f2">'+ 'Value' +'<tr><td>');//+
          if (dics != undefined && this._divi_ != undefined )
               { 
-                while(iter < 10 )//HERE WE BUILD OUR TABLE FOR POPUP ------ THIS TOOK FOREVER TO FIGURE OUT - MAP WOULD NOT WORK!!!!!!!!!!!!!!!!!!!!!!!!
+                while(iter < 10 )//HERE WE BUILD OUR TABLE FOR POPUP
                   {
                   this._divi_.innerHTML += ('<tr><td>' + `${dics[iter].name}`  + '</td><td>'+   `${dics[iter].value}` + '</td></tr>'); 
                   iter+=1;
@@ -271,7 +267,6 @@ info_box_two.update = function(dics) //UNPACK JSON
 ///  END MY INFO BOX 2
 ////////////////////////////////////////////////////////////////////////  
 
-
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 ////--- MAP STYLING ------------///////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -297,7 +292,7 @@ function reset(e) /// RESET LEGEND ON MOUSE OUT
     }
 
 
-function getColor(d) /// COLOR GRADIENT THRESHOLDS FOR MAP
+function getColor(d) /// COLOR GRADIENT THRESHOLDS FOR MAP AND LEGEND
     {
         if ( display_this == 0 ) // GDP COLOR
               {        
@@ -408,7 +403,6 @@ function getColor(d) /// COLOR GRADIENT THRESHOLDS FOR MAP
 
 function style(feature)  /// COLOR OF COUNTRYS BASED ON THIS VARIABLE FROM GEOJSON
     {   
-
             if ( display_this == 0 ) { map_color_data = feature.properties.gdp_md_est}; 
             if ( display_this == 1 ) { map_color_data = feature.properties.Population_Millions};
             if ( display_this == 2 ) { map_color_data = feature.properties.World_Rank};
@@ -500,29 +494,27 @@ function onEachFeature(feature, layer)
 
   var world_drop = d3.select(".world_scroll");
   
-   world_drop.on("change", function() 
-           { 
-            query = '';
-            if ( world_drop.property("value") == "GDP"  )               {query = 'GDP_Billions_PPP';        display_this =0 ;}
-            if ( world_drop.property("value") == "Population"  )        {query = 'Population_Millions' ;    display_this =1 ;}
-            if ( world_drop.property("value") == "World Rank"   )       {query = 'World_Rank'  ;            display_this =2 ;}
-            if ( world_drop.property("value") == "Government Integrity" ){query= 'Government_Integrity' ;   display_this =3 ;}
-            if ( world_drop.property("value") == "Judical Effectiveness"){query= 'Judical_Effectiveness';   display_this =4 ;}
-            if ( world_drop.property("value") == "Fiscal Health" )      {query = 'Fiscal_Health' ;          display_this =5 ;}
-            if ( world_drop.property("value") == "Inflation"  )         {query = 'Inflation';               display_this =6 ;}
-            if ( world_drop.property("value") == "Public Debt of GDP" ) {query = 'Public_Debtof_GDP' ;      display_this =7 ;}
-            if ( world_drop.property("value") == "Income Tax Rate"   )  {query = 'Income_Tax_Rate' ;        display_this =8 ;}
-            if ( world_drop.property("value") == "Corporate Tax Rate")  {query =  'Corporate_Tax_Rate';     display_this =9 ;}
-            if ( world_drop.property("value") == "Unemployment"   )     {query = 'Unemployment' ;           display_this =10 ;}
-
-          //  console.log("<><>___ this is drop downs value on chg  ___<><>", world_drop.property("value") );
-            legend.remove();
-            displayInfo.remove();
-            d3.selectAll(".info2").remove()
-            geojson.remove();
-            draw_map();  // draws new map 
-            top_tens(query); // original location
-            clickActions();
+  world_drop.on("change", function() 
+          { 
+          query = '';
+          if ( world_drop.property("value") == "GDP"  )               {query = 'GDP_Billions_PPP';        display_this =0 ;}
+          if ( world_drop.property("value") == "Population"  )        {query = 'Population_Millions' ;    display_this =1 ;}
+          if ( world_drop.property("value") == "World Rank"   )       {query = 'World_Rank'  ;            display_this =2 ;}
+          if ( world_drop.property("value") == "Government Integrity" ){query= 'Government_Integrity' ;   display_this =3 ;}
+          if ( world_drop.property("value") == "Judical Effectiveness"){query= 'Judical_Effectiveness';   display_this =4 ;}
+          if ( world_drop.property("value") == "Fiscal Health" )      {query = 'Fiscal_Health' ;          display_this =5 ;}
+          if ( world_drop.property("value") == "Inflation"  )         {query = 'Inflation';               display_this =6 ;}
+          if ( world_drop.property("value") == "Public Debt of GDP" ) {query = 'Public_Debtof_GDP' ;      display_this =7 ;}
+          if ( world_drop.property("value") == "Income Tax Rate"   )  {query = 'Income_Tax_Rate' ;        display_this =8 ;}
+          if ( world_drop.property("value") == "Corporate Tax Rate")  {query =  'Corporate_Tax_Rate';     display_this =9 ;}
+          if ( world_drop.property("value") == "Unemployment"   )     {query = 'Unemployment' ;           display_this =10 ;}
+          legend.remove();
+          displayInfo.remove();
+          d3.selectAll(".info2").remove()
+          geojson.remove();
+          draw_map();  // draws new map 
+          top_tens(query); // original location
+          clickActions();
         });
     
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -539,7 +531,6 @@ function onEachFeature(feature, layer)
     {
       var map_element = d3.selectAll("path");
       // console.log("this is button", map_element);
-
       // This function is triggered when the button is clicked
       function handleClick() 
             {
@@ -578,8 +569,6 @@ function init() {  draw_map(); }
 
  init(); 
 
- if (initialize == 0) {initialize = 1 ;}
-//  console.log("initialize is ", initialize);
 
 
 
@@ -591,7 +580,9 @@ function init() {  draw_map(); }
 
 
 
-
+/////////////////////////////////////////////////////////////////////////////////////////////////
+/// COPYRIGHT BRANDON STEINKE , PATRICK HENNESSY 2020
+/////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 
