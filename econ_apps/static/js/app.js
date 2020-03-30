@@ -15,7 +15,7 @@ var db_data =[];
 
  L.tileLayer(`https://api.mapbox.com/styles/v1/mapbox/light-v9/tiles/256/{z}/{x}/{y}?access_token=${API_KEY}`, {
     attribution: "Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"https://www.mapbox.com/\">Mapbox</a>",
-    maxZoom: 6,
+    maxZoom: 8,
     minZoom: 2,
     id: "mapbox.light",
 }).addTo(mymap);
@@ -426,6 +426,12 @@ function style(feature)  /// COLOR OF COUNTRYS BASED ON THIS VARIABLE FROM GEOJS
     }  
 
 
+function zoomToCountry(e) // zoom into country clicked on
+    {
+        mymap.fitBounds(e.target.getBounds());
+    }
+
+
 function highlight(e) // OUTLINING COUNTRY POLYGONS /// API CALL ON HOVER COUNTRY
     {
         info_box.clear();
@@ -456,6 +462,7 @@ function highlight(e) // OUTLINING COUNTRY POLYGONS /// API CALL ON HOVER COUNTR
                     });
 
         displayInfo.update(layer.feature.properties);
+
     }
 
 
@@ -469,19 +476,15 @@ function reset(e) /// CLEARING INFO BOX
         //  info_box.clear();
     }
 
-function zoomToCountry(e) 
-    {
-        mymap.fitBounds(e.target.getBounds());
-    }
 
 function onEachFeature(feature, layer) 
     {
         layer.on({
-                  
+                    // dblclick: zoomToCountry,
                     mousedown: highlight, //highlight is a func when mouse click or touch screen touch
                     mouseover: highlight, //highlight is a func when hover with mouse
                     mouseout: reset,      // reset is a func
-                    click: zoomToCountry  // zoom is a funct 
+                    // click: zoomToCountry  // zoom is a funct 
                 });
     }
 
@@ -567,7 +570,23 @@ function onEachFeature(feature, layer)
  ///////////////////////////////////////////////////////////////////////////////
  // INITIALIZER //////////////////////////////////////////////////////////////// 
 ///////////////////////////////////////////////////////////////////////////////
-function init() {  draw_map(); }
+
+
+
+function alteruser() {
+alert("Welcome !   ( This Page will Load Once you Click [OK]. )  _____________ <> TIPS FOR INTERACTING WITH THIS PAGE:  (1.) Select an Economic Category from  'Select Category' Button at top center of screen.\ \
+  Once category button selected you can use arrow keys to quickly toggle through each category and render the map.    (2.) Hover or Click on a Country to receive more information. (3.) To 'Zoom In', Double Click anywhere in map or use the + and - signs in the upper left corner. (4.) Click and Hold and  Drag to Pan.\
+ (5.) Enjoy Your Trip Around the Globe :-) Best Viewed on Laptop or Computer!");
+}
+
+ 
+
+
+function init() {
+  draw_map();
+  alteruser();
+  }
+
 
  init(); 
 
