@@ -477,7 +477,9 @@ function zoomToCountry(e)
 function onEachFeature(feature, layer) 
     {
         layer.on({
-                    mouseover: highlight, //highlight is a func
+                  
+                    mousedown: highlight, //highlight is a func when mouse click or touch screen touch
+                    mouseover: highlight, //highlight is a func when hover with mouse
                     mouseout: reset,      // reset is a func
                     click: zoomToCountry  // zoom is a funct 
                 });
